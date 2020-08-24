@@ -8,14 +8,143 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   
     <title>Weather App</title>
   </head>
   <body>
-    <h1>Weather App</h1>
+    <div class="header">
+      <nav class="navbar navbar-dark bg-dark">
+        <span class="navbar-brand mb-0 h1">Weather Dashboard</span>
+      </nav>
+    </div>
+
+    
+      <div class="row">
+        <div class="col-3">
+          <div class="search bg-light">
+          <h3>Search for a city:</h3>
+          <nav class="navbar navbar-light bg-light">
+            <form class="form-inline">
+              <input class="form-control mr-sm-2" id="citySearch" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-primary my-2 my-sm-0" id="citySubmitBtn" type="submit">Search</button>
+            </form>
+          </nav>
+          
+          <ul class="list-group bg-light" id="previousCities">
+
+            <!-- These lis will be created with jQuer y-->
+
+            <!-- <li class="list-group-item" id="previousCity1">City 1 </li>
+            <li class="list-group-item" id="previousCity2">City 2</li>
+            <li class="list-group-item" id="previousCity3">City 3</li>
+            <li class="list-group-item" id="previousCity4">City 4</li>
+            <li class="list-group-item" id="previousCity5">City 5</li> -->
+          </ul>
+          <br><br>
+        </div>
+      </div>
+        <div class="card w-75">
+          <div class="currentWeatherCard">
+            <div class="card-body">
+              <h2 id="currentCity"></h2>
+              <p id="currentTemp"></p>
+              <p id="currentHumidity"></p>
+              <p id="currentWindSpeed"></p>
+              <p id="currentUvIndex"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-3"></div>
+        <div class="col-9">
+          <div class="fiveDay">
+          <h2>5 Day Forecast: </h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-3"></div>
+          <div class=col-9">
+            <div class="card-deck">
+
+              <!-- Future forecast day 1 -->
+              <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+                <div class="card-header" id="dateOne">8/25/2020</div>
+                <div class="card-body">
+                  <img class="card-title" id="iconOne">Icon Goes Here</img>
+                  <p class="card-text" id="tempOne">Temp: </p>
+                  <p class="card-text" id="humidityOne">Humidity: </p>
+                </div>
+              </div>
+
+              <!-- Future forecast day 2 -->
+              <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+                <div class="card-header" id="dateTwo">8/25/2020</div>
+                <div class="card-body">
+                  <img class="card-title" id="iconTwo">
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-moon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M14.53 10.53a7 7 0 0 1-9.058-9.058A7.003 7.003 0 0 0 8 15a7.002 7.002 0 0 0 6.53-4.47z"/>
+                  </svg>
+                  </img>
+                  <p class="card-text" id="tempTwo">Temp: </p>
+                  <p class="card-text" id="humidityTwo">Humidity: </p>
+                </div>
+              </div>
+
+              <!-- Future forecast day 3 -->
+              <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+                <div class="card-header" id="dateThree">8/25/2020</div>
+                <div class="card-body">
+                  <img class="card-title" id="iconThree">
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-lightning-fill" fill="yellow" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z"/>
+                  </svg>
+                  </svg>
+                  </img>
+                  <p class="card-text" id="tempThree">Temp: </p>
+                  <p class="card-text" id="humidityThree">Humidity: </p>
+                </div>
+              </div>
+
+             <!-- Future forecast day 4 -->
+             <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+              <div class="card-header" id="dateFour">8/25/2020</div>
+              <div class="card-body">
+                <img class="card-title" id="iconFour">
+                  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cloud-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383z"/>
+                  </svg>
+                </img>
+                <p class="card-text" id="tempFour">Temp: </p>
+                <p class="card-text" id="humidityFour">Humidity: </p>
+              </div>
+            </div>
+
+             <!-- Future forecast day  -->
+             <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+              <div class="card-header" id="dateFive">8/25/2020</div>
+              <div class="card-body">
+                <!-- Sunny icon -->
+                <img class="card-title" id="iconFive">
+                  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-sun" fill="yellow" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3.5 8a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0z"/>
+                    <path fill-rule="evenodd" d="M8.202.28a.25.25 0 0 0-.404 0l-.91 1.255a.25.25 0 0 1-.334.067L5.232.79a.25.25 0 0 0-.374.155l-.36 1.508a.25.25 0 0 1-.282.19l-1.532-.245a.25.25 0 0 0-.286.286l.244 1.532a.25.25 0 0 1-.189.282l-1.509.36a.25.25 0 0 0-.154.374l.812 1.322a.25.25 0 0 1-.067.333l-1.256.91a.25.25 0 0 0 0 .405l1.256.91a.25.25 0 0 1 .067.334L.79 10.768a.25.25 0 0 0 .154.374l1.51.36a.25.25 0 0 1 .188.282l-.244 1.532a.25.25 0 0 0 .286.286l1.532-.244a.25.25 0 0 1 .282.189l.36 1.508a.25.25 0 0 0 .374.155l1.322-.812a.25.25 0 0 1 .333.067l.91 1.256a.25.25 0 0 0 .405 0l.91-1.256a.25.25 0 0 1 .334-.067l1.322.812a.25.25 0 0 0 .374-.155l.36-1.508a.25.25 0 0 1 .282-.19l1.532.245a.25.25 0 0 0 .286-.286l-.244-1.532a.25.25 0 0 1 .189-.282l1.508-.36a.25.25 0 0 0 .155-.374l-.812-1.322a.25.25 0 0 1 .067-.333l1.256-.91a.25.25 0 0 0 0-.405l-1.256-.91a.25.25 0 0 1-.067-.334l.812-1.322a.25.25 0 0 0-.155-.374l-1.508-.36a.25.25 0 0 1-.19-.282l.245-1.532a.25.25 0 0 0-.286-.286l-1.532.244a.25.25 0 0 1-.282-.189l-.36-1.508a.25.25 0 0 0-.374-.155l-1.322.812a.25.25 0 0 1-.333-.067L8.203.28zM8 2.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11z"/>
+                  </svg>
+                </img>
+                <p class="card-text" id="tempFive">Temp: </p>
+                <p class="card-text" id="humidityFive">Humidity: </p>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div> 
+      </div>
 
 
 
