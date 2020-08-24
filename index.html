@@ -21,29 +21,38 @@
       </nav>
     </div>
 
-    
+
       <div class="row">
-        <div class="col-3">
+        <div class="col-sm-3">
+          <div class="card bg-light">
+            <div class="card-body">
           <div class="search bg-light">
           <h3>Search for a city:</h3>
           <nav class="navbar navbar-light bg-light">
             <form class="form-inline">
               <input class="form-control mr-sm-2" id="citySearch" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-primary my-2 my-sm-0" id="citySubmitBtn" type="submit">Search</button>
+              <button class="btn btn-outline-primary my-2 my-sm-0" id="citySubmitBtn" type="submit">
+                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+                  <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+                </svg>
+              </button>
             </form>
           </nav>
           
           <ul class="list-group bg-light" id="previousCities">
 
-            <!-- These lis will be created with jQuer y-->
+           <!-- These lis will be created with jQuery-->
 
-            <!-- <li class="list-group-item" id="previousCity1">City 1 </li>
+            <li class="list-group-item" id="previousCity1">City 1</li>
             <li class="list-group-item" id="previousCity2">City 2</li>
             <li class="list-group-item" id="previousCity3">City 3</li>
             <li class="list-group-item" id="previousCity4">City 4</li>
-            <li class="list-group-item" id="previousCity5">City 5</li> -->
+            <li class="list-group-item" id="previousCity5">City 5</li>
           </ul>
           <br><br>
+          </div>
+          </div>
         </div>
       </div>
         <div class="card w-75">
@@ -60,8 +69,8 @@
       </div>
 
       <div class="row">
-        <div class="col-3"></div>
-        <div class="col-9">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-9">
           <div class="fiveDay">
           <h2>5 Day Forecast: </h2>
           </div>
@@ -69,15 +78,19 @@
       </div>
 
       <div class="row">
-        <div class="col-3"></div>
-          <div class=col-9">
+        <div class="col-sm-3"></div>
+          <div class=col-sm-9">
             <div class="card-deck">
 
               <!-- Future forecast day 1 -->
               <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
                 <div class="card-header" id="dateOne">8/25/2020</div>
                 <div class="card-body">
-                  <img class="card-title" id="iconOne">Icon Goes Here</img>
+                  <img class="card-title" id="iconOne">
+                    <svg width="2em" height="1em" viewBox="0 0 16 16" class="bi bi-moon" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M14.53 10.53a7 7 0 0 1-9.058-9.058A7.003 7.003 0 0 0 8 15a7.002 7.002 0 0 0 6.53-4.47z"/>
+                    </svg>
+                  </img>
                   <p class="card-text" id="tempOne">Temp: </p>
                   <p class="card-text" id="humidityOne">Humidity: </p>
                 </div>
@@ -144,8 +157,8 @@
             </div>
           </div>
         </div> 
-      </div>
-
+  
+    
 
 
 
