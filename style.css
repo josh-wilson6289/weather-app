@@ -14,8 +14,12 @@
   padding-bottom: 10px;
 }
 
-h3 {
+.searchPad {
   padding-left: 5%;
+}
+
+#currentDate {
+  padding-bottom: 1%;
 }
 
 .search {
