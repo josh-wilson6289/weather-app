@@ -98,14 +98,15 @@ $(document).ready(function() {
       function cityHistory(citySearch) {
         var newCity = $("<li>");
         newCity.addClass("list-group-item");
-        newCity.attr('id', 'city');
+        newCity.attr("id", "city");
         newCity.text(citySearch);
         previousCities.append(newCity);
     }
    
- 
-
-
+    $("#city").click(function() {
+      event.preventDefault();
+      console.log("clicked");
+    });
 
   // click event to run getCoords function when search button is clicked.
   $("#citySubmitBtn").click(function() {
@@ -114,12 +115,6 @@ $(document).ready(function() {
     getCoords(citySearch);
     cityHistory(citySearch);
   });
-
-  $("#city").click(function() {
-    event.preventDefault();
-    console.log("clicked");
-  });
-
 
 });
 
