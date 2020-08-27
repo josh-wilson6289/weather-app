@@ -8,6 +8,8 @@ $(document).ready(function() {
   var currentUvIndex = $("#currentUvIndex");
   var currentIcon = $("#currentIcon");
   var currentDate = $("#currentDate");
+  var previousCities = $("#previousCities");
+
   currentDate.text(moment().format("MMMM Do YYYY"));
   var lat;
   var lon;
@@ -44,6 +46,8 @@ $(document).ready(function() {
       currentHumidity.text("Humidity: " + Math.floor(response.current.humidity) + "%");
       currentWindSpeed.text("Wind Speed: " + Math.floor(response.current.wind_speed) + " mph");
       currentUvIndex.text("UV Index: " + Math.floor(response.current.uvi));
+        
+        // checks current uv index and changes bg color
         if (response.current.uvi > 11) {
           currentUvIndex.css("background-color", "red");
         }
@@ -51,7 +55,7 @@ $(document).ready(function() {
           currentUvIndex.css("background-color", "yellow");
         }
         else {
-          currentUvIndex.css("backround-color", "green");
+          currentUvIndex.css("background-color", "green");
         }
         console.log(response);
         getFutureWeather(lat,lon);
@@ -73,36 +77,43 @@ $(document).ready(function() {
           var futureHighTemp = $("<p>");
           var futureLowTemp = $("<p>");
           var futureHumidity = $("<p>");
-          var futureDate = $("<p>")
-          var date = moment().format("MMMM Do YYYY");
-          console.log(date);
-          
+          var futureDate = $("<p>");
+
           $(futureTempIcon).attr("src", "http://openweathermap.org/img/wn/" + response.daily[i].weather[0].icon + "@2x.png");
           $(futureHighTemp).text("High: " + Math.floor(response.daily[i].temp.max));
           $(futureLowTemp).text("Low: " + Math.floor(response.daily[i].temp.min));
           $(futureHumidity).text("Humidity: " + Math.floor(response.daily[i].humidity));
-       
-          $(futureDate).text(moment(date).add(i, 'day').format('MMMM Do YYYY'));
+          $(futureDate).text(moment().add(i, 'day').format('MMMM Do YYYY'));
+          console.log(futureDate);
           
           $("#card" + [i]).append(futureTempIcon);
           $("#card" + [i]).append(futureHighTemp);
           $("#card" + [i]).append(futureLowTemp);
           $("#card" + [i]).append(futureHumidity);
           $("#date" + [i]).append(futureDate);
-          
         }
           
         });
+      }
+
+      function cityHistory(citySearch) {
+        var newCity = $("<li>");
+        newCity.attr("class", "list-group-item");
+        newCity.attr("id", "city");
+        newCity.text(citySearch);
+        previousCities.append(newCity);
+    }
    
-  }
+ 
 
 
 
-  // click event to run getCurrentWeather function when search button is clicked.
+  // click event to run getCoords function when search button is clicked.
   $("#citySubmitBtn").click(function () {
     event.preventDefault();
     citySearch = $("#citySearch").val();
     getCoords(citySearch);
+    cityHistory(citySearch);
   });
 
 
