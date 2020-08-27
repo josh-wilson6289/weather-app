@@ -7,19 +7,16 @@ $(document).ready(function() {
   var currentWindSpeed = $("#currentWindSpeed");
   var currentUvIndex = $("#currentUvIndex");
   var currentIcon = $("#currentIcon");
-
-  
-  
   var currentDate = $("#currentDate");
   currentDate.text(moment().format("MMMM Do YYYY"));
   var lat;
   var lon;
-  
 
-  
+  $(".card-deck").hide();
 
     //gets lattitude and longitude and puts city name into the DOM
   function getCoords(citySearch) {
+    
     var querySelector = "https://api.openweathermap.org/data/2.5/forecast?q=" + citySearch +"&appid=ebbe9aba6bb9ec7a3858466e6dae8ae4"
 
     $.ajax ({
@@ -32,6 +29,7 @@ $(document).ready(function() {
       getCurrentWeather(lat,lon);
     });
   }
+
   // gets current weather by lat/lon and displays to the DOM
   function getCurrentWeather(lat,lon) {
     
@@ -59,29 +57,41 @@ $(document).ready(function() {
         getFutureWeather(lat,lon);
     });   
   }
+
+    // displays future weather
     function getFutureWeather(lat,lon) {
       var oneCallQuerySelector = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=ebbe9aba6bb9ec7a3858466e6dae8ae4"
         $.ajax ({
           url: oneCallQuerySelector,
           method: "GET"
         }).then (function(response) {
+          $(".card-deck").show();
+          // loops through each card, appends elements for future card body, and creates future dates
           for (var i = 1; i <= 5; i++) {
+          
           var futureTempIcon = $("<img>");
-          $(futureTempIcon).attr("src", "http://openweathermap.org/img/wn/" + response.daily[i].weather[0].icon + "@2x.png");
           var futureHighTemp = $("<p>");
-          $(futureHighTemp).text("High: " + Math.floor(response.daily[i].temp.max));
           var futureLowTemp = $("<p>");
-          $(futureLowTemp).text("Low: " + Math.floor(response.daily[i].temp.min));
           var futureHumidity = $("<p>");
+          var futureDate = $("<p>")
+          var date = moment().format("MMMM Do YYYY");
+          console.log(date);
+          
+          $(futureTempIcon).attr("src", "http://openweathermap.org/img/wn/" + response.daily[i].weather[0].icon + "@2x.png");
+          $(futureHighTemp).text("High: " + Math.floor(response.daily[i].temp.max));
+          $(futureLowTemp).text("Low: " + Math.floor(response.daily[i].temp.min));
           $(futureHumidity).text("Humidity: " + Math.floor(response.daily[i].humidity));
+       
+          $(futureDate).text(moment(date).add(i, 'day').format('MMMM Do YYYY'));
           
           $("#card" + [i]).append(futureTempIcon);
           $("#card" + [i]).append(futureHighTemp);
           $("#card" + [i]).append(futureLowTemp);
           $("#card" + [i]).append(futureHumidity);
-            
+          $("#date" + [i]).append(futureDate);
+          
         }
-          // highTempOne.text("High: " + Math.floor(response.daily[1].temp.max));
+          
         });
    
   }
