@@ -103,7 +103,7 @@ $(document).ready(function() {
         previousCities.append(newCity);
     }
    
-    $("#city").click(function() {
+    $(document.body).on("click", "#city", function() {
       event.preventDefault();
       console.log("clicked");
     });
