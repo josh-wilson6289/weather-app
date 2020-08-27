@@ -9,20 +9,30 @@ $(document).ready(function() {
   var currentIcon = $("#currentIcon");
   var currentDate = $("#currentDate");
   var previousCities = $("#previousCities");
-  // var futureTempIcon = "";
-  // var futureHighTemp = "";
-  // var futureLowTemp = "";
-  // var futureHumidity = "";
-  // var futureDate = "";
 
   currentDate.text(moment().format("MMMM Do YYYY"));
   var lat;
   var lon;
 
-  $(".card-deck").hide();
+  var city;
+  var savedCities = JSON.parse(localStorage.getItem("city"));
+  console.log(savedCities);
 
-    //gets lattitude and longitude and puts city name into the DOM
-  function getCoords(citySearch) {
+  // sets stored city searches to an empty array if not present 
+  if (savedCities == null) {
+    savedCities = [];
+    console.log(savedCities);
+  }
+  else {
+    for (var i = 0; i < savedCities.length; i++) {
+      searchHistory(city);
+    }
+  }
+  $(".card-deck").hide();
+  $(".fiveDay").hide();
+
+  //gets lattitude and longitude and puts city name into the DOM
+  function getCoords(city) {
     // clears previous weather
     currentCity.empty();
     currentTemp.empty();
@@ -59,16 +69,16 @@ $(document).ready(function() {
       currentHumidity.text("Humidity: " + Math.floor(response.current.humidity) + "%");
       currentWindSpeed.text("Wind Speed: " + Math.floor(response.current.wind_speed) + " mph");
       currentUvIndex.text("UV Index: " + Math.floor(response.current.uvi));
-        
+      currentDate.text(moment().format("MMMM Do YYYY"));
         // checks current uv index and changes bg color
         if (response.current.uvi > 11) {
-          currentUvIndex.css("background-color", "red");
+          $(currentUvIndex).css("background-color", "red");
         }
         else if (response.current.uvi > 6 && response.current.uvi < 11){
-          currentUvIndex.css("background-color", "yellow");
+          $(currentUvIndex).css("background-color", "yellow");
         }
         else {
-          currentUvIndex.css("background-color", "green");
+          $(currentUvIndex)("background-color", "green");
         }
         
         getFutureWeather(lat,lon);
@@ -79,6 +89,7 @@ $(document).ready(function() {
     // displays future weather and date
     function getFutureWeather(lat,lon) {
       
+      // clears any existing data in the cards
       $("#date1").empty();
       $("#date2").empty();
       $("#date3").empty();
@@ -89,6 +100,8 @@ $(document).ready(function() {
       $("#card3").empty();
       $("#card4").empty();
       $("#card5").empty();
+
+      $(".fiveDay").show();
       
       var oneCallQuerySelector = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=ebbe9aba6bb9ec7a3858466e6dae8ae4"
       
@@ -111,7 +124,8 @@ $(document).ready(function() {
           $(futureHighTemp).text("High: " + Math.floor(response.daily[i].temp.max));
           $(futureLowTemp).text("Low: " + Math.floor(response.daily[i].temp.min));
           $(futureHumidity).text("Humidity: " + Math.floor(response.daily[i].humidity));
-          $(futureDate).text(moment().add(i, 'day').format('MMMM Do YYYY'));
+          $(futureDate).text(moment().add(i, 'day').format('MMM Do'));
+          $(futureDate).attr("id", "futureDate");
           
           $("#card" + [i]).append(futureTempIcon);
           $("#card" + [i]).append(futureHighTemp);
@@ -123,14 +137,21 @@ $(document).ready(function() {
         });
       }
 
-      function cityHistory(citySearch) {
+      function searchHistory(city) {
         var newCity = $("<li>");
         newCity.addClass("list-group-item");
         newCity.attr("id", "city");
-        newCity.attr("data-city", citySearch);
-        newCity.text(citySearch);
+        newCity.attr("data-city", city);
+        newCity.text(city);
         previousCities.append(newCity);
+        saveCity(city);
     }
+
+      function saveCity(city) {
+        savedCities = {"city": city};
+        localStorage.setItem("city", JSON.stringify(city));
+        savedCities.push(city);
+      }
    
     $(document.body).on("click", "#city", function() {
       event.preventDefault();
@@ -138,13 +159,12 @@ $(document).ready(function() {
       getCoords(city);
     });
 
-  // click event to run getCoords function when search button is clicked.
+  // click event to start weather displays and add to search history
   $("#citySubmitBtn").click(function() {
     event.preventDefault();
     citySearch = $("#citySearch").val();
-
     getCoords(citySearch);
-    cityHistory(citySearch);
+    searchHistory(citySearch);
     
   });
 
