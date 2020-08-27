@@ -7,14 +7,7 @@ $(document).ready(function() {
   var currentWindSpeed = $("#currentWindSpeed");
   var currentUvIndex = $("#currentUvIndex");
   var currentIcon = $("#currentIcon");
-  var dateOne = $("#dateOne");
-  var highTempOne = $("#highTempOne");
-  var lowTempOne = $("#lowTempOne");
-  var humidityOne = $("#humidityOne");
-  var dateTwo = $("#dateTwo");
-  var highTempTwo = $("#highTempTwo");
-  var lowTempTwo = $("#lowTempTwo");
-  var humidityTwo = $("#humidityTwo");
+
   
   
   var currentDate = $("#currentDate");
@@ -62,7 +55,7 @@ $(document).ready(function() {
         else {
           currentUvIndex.css("backround-color", "green");
         }
-        
+        console.log(response);
         getFutureWeather(lat,lon);
     });   
   }
@@ -72,11 +65,25 @@ $(document).ready(function() {
           url: oneCallQuerySelector,
           method: "GET"
         }).then (function(response) {
-          //dateOne = moment js + 1 day
-          //dateTwo = moment js + 2 day ect
-          highTempOne.text("High: " + Math.floor(response.daily[1].temp.max));
-          highTempTwo.text("High: " + Math.floor(response.daily[2].temp.max));
-    });
+          for (var i = 1; i <= 5; i++) {
+          var futureTempIcon = $("<img>");
+          $(futureTempIcon).attr("src", "http://openweathermap.org/img/wn/" + response.daily[i].weather[0].icon + "@2x.png");
+          var futureHighTemp = $("<p>");
+          $(futureHighTemp).text("High: " + Math.floor(response.daily[i].temp.max));
+          var futureLowTemp = $("<p>");
+          $(futureLowTemp).text("Low: " + Math.floor(response.daily[i].temp.min));
+          var futureHumidity = $("<p>");
+          $(futureHumidity).text("Humidity: " + Math.floor(response.daily[i].humidity));
+          
+          $("#card" + [i]).append(futureTempIcon);
+          $("#card" + [i]).append(futureHighTemp);
+          $("#card" + [i]).append(futureLowTemp);
+          $("#card" + [i]).append(futureHumidity);
+            
+        }
+          // highTempOne.text("High: " + Math.floor(response.daily[1].temp.max));
+        });
+   
   }
 
 
