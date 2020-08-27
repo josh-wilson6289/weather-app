@@ -9,6 +9,11 @@ $(document).ready(function() {
   var currentIcon = $("#currentIcon");
   var currentDate = $("#currentDate");
   var previousCities = $("#previousCities");
+  // var futureTempIcon = "";
+  // var futureHighTemp = "";
+  // var futureLowTemp = "";
+  // var futureHumidity = "";
+  // var futureDate = "";
 
   currentDate.text(moment().format("MMMM Do YYYY"));
   var lat;
@@ -18,6 +23,14 @@ $(document).ready(function() {
 
     //gets lattitude and longitude and puts city name into the DOM
   function getCoords(citySearch) {
+    // clears previous weather
+    currentCity.empty();
+    currentTemp.empty();
+    currentHumidity.empty();
+    currentWindSpeed.empty();
+    currentUvIndex.empty();
+    currentIcon.empty();
+    currentDate.empty();
     
     var querySelector = "https://api.openweathermap.org/data/2.5/forecast?q=" + citySearch +"&appid=ebbe9aba6bb9ec7a3858466e6dae8ae4"
 
@@ -57,19 +70,34 @@ $(document).ready(function() {
         else {
           currentUvIndex.css("background-color", "green");
         }
-
+        
         getFutureWeather(lat,lon);
+        
     });   
   }
 
-    // displays future weather
+    // displays future weather and date
     function getFutureWeather(lat,lon) {
+      
+      $("#date1").empty();
+      $("#date2").empty();
+      $("#date3").empty();
+      $("#date4").empty();
+      $("#date5").empty();
+      $("#card1").empty();
+      $("#card2").empty();
+      $("#card3").empty();
+      $("#card4").empty();
+      $("#card5").empty();
+      
       var oneCallQuerySelector = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=ebbe9aba6bb9ec7a3858466e6dae8ae4"
-        $.ajax ({
+      
+      $.ajax ({
           url: oneCallQuerySelector,
           method: "GET"
         }).then (function(response) {
           $(".card-deck").show();
+          
           // loops through each card, appends elements for future card body, and creates future dates
           for (var i = 1; i <= 5; i++) {
           
@@ -99,21 +127,25 @@ $(document).ready(function() {
         var newCity = $("<li>");
         newCity.addClass("list-group-item");
         newCity.attr("id", "city");
+        newCity.attr("data-city", citySearch);
         newCity.text(citySearch);
         previousCities.append(newCity);
     }
    
     $(document.body).on("click", "#city", function() {
       event.preventDefault();
-      console.log("clicked");
+      var city = $(this).data("city");
+      getCoords(city);
     });
 
   // click event to run getCoords function when search button is clicked.
   $("#citySubmitBtn").click(function() {
     event.preventDefault();
     citySearch = $("#citySearch").val();
+
     getCoords(citySearch);
     cityHistory(citySearch);
+    
   });
 
 });
