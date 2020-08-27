@@ -37,7 +37,7 @@ $(document).ready(function() {
       lon = response.city.coord.lon;
       currentCity.text(response.city.name);
       getCurrentWeather(lat,lon);
-    })
+    });
   }
   // gets current weather by lat/lon and displays to the DOM
   function getCurrentWeather(lat,lon) {
@@ -48,7 +48,6 @@ $(document).ready(function() {
       url: oneCallQuerySelector,
       method: "GET"
     }).then (function(response) {
-      console.log(response);
       currentIcon.attr("src", "http://openweathermap.org/img/wn/" + response.current.weather[0].icon + "@2x.png");         
       currentTemp.text("Current Temperature: "+ Math.floor(response.current.temp) + " degrees");
       currentHumidity.text("Humidity: " + Math.floor(response.current.humidity) + "%");
@@ -64,9 +63,20 @@ $(document).ready(function() {
           currentUvIndex.css("backround-color", "green");
         }
         
-        getFutureWeather();
+        getFutureWeather(lat,lon);
     });   
-  
+  }
+    function getFutureWeather(lat,lon) {
+      var oneCallQuerySelector = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=ebbe9aba6bb9ec7a3858466e6dae8ae4"
+        $.ajax ({
+          url: oneCallQuerySelector,
+          method: "GET"
+        }).then (function(response) {
+          //dateOne = moment js + 1 day
+          //dateTwo = moment js + 2 day ect
+          highTempOne.text("High: " + Math.floor(response.daily[1].temp.max));
+          highTempTwo.text("High: " + Math.floor(response.daily[2].temp.max));
+    });
   }
 
 
@@ -75,7 +85,6 @@ $(document).ready(function() {
   $("#citySubmitBtn").click(function () {
     event.preventDefault();
     citySearch = $("#citySearch").val();
-
     getCoords(citySearch);
   });
 
