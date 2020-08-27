@@ -13,10 +13,10 @@ $(document).ready(function() {
   currentDate.text(moment().format("MMMM Do YYYY"));
   var lat;
   var lon;
-
+  
   var city;
   var savedCities = JSON.parse(localStorage.getItem("city"));
-  console.log(savedCities);
+ 
 
   // sets stored city searches to an empty array if not present 
   if (savedCities == null) {
@@ -148,9 +148,16 @@ $(document).ready(function() {
     }
 
       function saveCity(city) {
-        savedCities = {"city": city};
-        localStorage.setItem("city", JSON.stringify(city));
-        savedCities.push(city);
+        savedCity = {"city": city};
+       
+        for (var i=0; i < savedCities.length; i++) {
+          if (savedCities[i].savedCity === city) {
+            savedCities.splice(i,1);
+            i--;
+          }
+        }
+        savedCities.push(savedCity);
+        localStorage.setItem("city", JSON.stringify(savedCity));
       }
    
     $(document.body).on("click", "#city", function() {
