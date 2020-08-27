@@ -57,7 +57,7 @@ $(document).ready(function() {
         else {
           currentUvIndex.css("background-color", "green");
         }
-        console.log(response);
+
         getFutureWeather(lat,lon);
     });   
   }
@@ -84,7 +84,6 @@ $(document).ready(function() {
           $(futureLowTemp).text("Low: " + Math.floor(response.daily[i].temp.min));
           $(futureHumidity).text("Humidity: " + Math.floor(response.daily[i].humidity));
           $(futureDate).text(moment().add(i, 'day').format('MMMM Do YYYY'));
-          console.log(futureDate);
           
           $("#card" + [i]).append(futureTempIcon);
           $("#card" + [i]).append(futureHighTemp);
@@ -98,8 +97,8 @@ $(document).ready(function() {
 
       function cityHistory(citySearch) {
         var newCity = $("<li>");
-        newCity.attr("class", "list-group-item");
-        newCity.attr("id", "city");
+        newCity.addClass("list-group-item");
+        newCity.attr('id', 'city');
         newCity.text(citySearch);
         previousCities.append(newCity);
     }
@@ -109,11 +108,16 @@ $(document).ready(function() {
 
 
   // click event to run getCoords function when search button is clicked.
-  $("#citySubmitBtn").click(function () {
+  $("#citySubmitBtn").click(function() {
     event.preventDefault();
     citySearch = $("#citySearch").val();
     getCoords(citySearch);
     cityHistory(citySearch);
+  });
+
+  $("#city").click(function() {
+    event.preventDefault();
+    console.log("clicked");
   });
 
 
