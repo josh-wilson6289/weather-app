@@ -1,6 +1,6 @@
 # weather-app
 
-<imc src = "weather-app.png" alt="screen shot of weather app">
+<img src = "weather-app.png" alt="screen shot of weather app">
 
 This web app utilized the open weather map api to display weather data to the user.
 
