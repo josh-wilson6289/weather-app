@@ -14,8 +14,8 @@ $(document).ready(function() {
   var lat;
   var lon;
   
-  var city;
-  var savedCities = JSON.parse(localStorage.getItem("city"));
+ 
+  var savedCities = JSON.parse(localStorage.getItem("savedCities"));
  
 
   // sets stored city searches to an empty array if not present 
@@ -25,7 +25,7 @@ $(document).ready(function() {
   }
   else {
     for (var i = 0; i < savedCities.length; i++) {
-      searchHistory(city);
+      searchHistory(savedCities[i].city);
     }
   }
   $(".card-deck").hide();
@@ -42,7 +42,7 @@ $(document).ready(function() {
     currentIcon.empty();
     currentDate.empty();
     
-    var querySelector = "https://api.openweathermap.org/data/2.5/forecast?q=" + citySearch +"&appid=ebbe9aba6bb9ec7a3858466e6dae8ae4"
+    var querySelector = "https://api.openweathermap.org/data/2.5/forecast?q=" + city +"&appid=ebbe9aba6bb9ec7a3858466e6dae8ae4"
 
     $.ajax ({
       url: querySelector,
@@ -52,6 +52,7 @@ $(document).ready(function() {
       lon = response.city.coord.lon;
       currentCity.text(response.city.name);
       getCurrentWeather(lat,lon);
+      searchHistory(city);
     });
   }
 
@@ -148,30 +149,22 @@ $(document).ready(function() {
     }
 
       function saveCity(city) {
-        savedCity = {"city": city};
-       
-        for (var i=0; i < savedCities.length; i++) {
-          if (savedCities[i].savedCity === city) {
-            savedCities.splice(i,1);
-            i--;
-          }
-        }
-        savedCities.push(savedCity);
-        localStorage.setItem("city", JSON.stringify(savedCity));
+        savedCities.push(city);
+        localStorage.setItem("city", JSON.stringify(city));
       }
    
     $(document.body).on("click", "#city", function() {
       event.preventDefault();
       var city = $(this).data("city");
+      console.log(city);
       getCoords(city);
     });
 
   // click event to start weather displays and add to search history
   $("#citySubmitBtn").click(function() {
     event.preventDefault();
-    citySearch = $("#citySearch").val();
-    getCoords(citySearch);
-    searchHistory(citySearch);
+    city= $("#citySearch").val();
+    getCoords(city);
     
   });
 
